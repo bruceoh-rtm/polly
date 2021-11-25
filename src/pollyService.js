@@ -64,9 +64,14 @@ const storeQuestion = async (question, answers) => {
 
 const _fetchProfilePicture = async (userId, verification) => {
   const oauth = await db.find('apps', { verification })
+  
   if(oauth.length === 1) {
     try {
-      const result = (await fetch(`https://slack.com/api/users.profile.get?user=${userId}&token=${oauth[0].oauth}`)
+
+      const headers = {
+        Authorization : `Bearer ${oauth[0].oauth}`
+      }
+      const result = (await fetch(`https://slack.com/api/users.profile.get?user=${userId}`, { method: 'GET', headers: headers})
       .then(res => res.json()))
       logger.debug(result)
       return result.profile.image_24

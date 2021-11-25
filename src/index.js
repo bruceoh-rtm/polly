@@ -26,7 +26,7 @@ app.post('/hook', async (req, res) => {
 app.post('/action', async (req, res) => {
   const payload = JSON.parse(req.body.payload)
   const [questionId, answerId] = getIds(payload)
-  
+
   res.send()
 
   await service.storeVote({

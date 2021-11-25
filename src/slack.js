@@ -13,7 +13,7 @@ const _response = ({question, user}) => (
       elements: [{
         type: 'plain_text',
         emoji: true,
-        text: `Poll by ${user}`
+        text: `Poll by ???`
       }]
     },
     {
@@ -43,20 +43,46 @@ const _answer = (questionId, {answer, voters = [], id}) => (
     {
       type: 'context',
       elements: _voters(voters)
+    },
+    {
+      type: 'context',
+      elements: _voterNames(voters)
     }
   ]
 )
 
 const _voters = (voters) => {
   if(voters.length > 0) {
-    return voters.map(voter => ({
-      type: 'image',
-      image_url: voter.pic,
-      alt_text: voter.user
-    })).concat([{
+    return voters.map(voter => {
+      const image = {
+        type: 'image',
+        image_url: voter.pic,
+        alt_text: voter.user,
+      }
+      return image
+    }).concat([{
       type: 'plain_text',
       text: voters.length > 1 ? `${voters.length} votes` : 'one vote'
     }])
+  } else {
+    return [{
+      type: 'plain_text',
+      emoji: true,
+      text: 'No voters yet.'
+    }]
+  }
+}
+
+const _voterNames = (voters) => {
+  console.log(voters);
+  if(voters.length > 0) {
+    return voters.map(voter => {
+      const image = {
+        type: 'plain_text',
+        text: voter.user
+      }
+      return image
+    })
   } else {
     return [{
       type: 'plain_text',
