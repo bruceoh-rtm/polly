@@ -38,7 +38,11 @@ const storeVote = async (vote, verification) => {
     await db.remove('votes', dbVote[0].id)
     logger.info('Vote removed with id ' + dbVote[0].id)
   } else {
-    vote.pic = await _fetchProfilePicture(userId, verification)
+    const profile = await _fetchProfilePicture(userId, verification);
+
+    vote.pic = profile.pic;
+    vote.displayName = profile.displayName;
+    
     await db.save('votes', vote)
     logger.info('Vote stored with id ' + vote.id)
   }
@@ -64,17 +68,16 @@ const storeQuestion = async (question, answers) => {
 
 const _fetchProfilePicture = async (userId, verification) => {
   const oauth = await db.find('apps', { verification })
-  
+
   if(oauth.length === 1) {
     try {
-
       const headers = {
         Authorization : `Bearer ${oauth[0].oauth}`
       }
       const result = (await fetch(`https://slack.com/api/users.profile.get?user=${userId}`, { method: 'GET', headers: headers})
       .then(res => res.json()))
       logger.debug(result)
-      return result.profile.image_24
+      return {pic : result.profile.image_24, displayName : result.profile.display_name }
     } catch (error) {
       logger.error(error)
     }

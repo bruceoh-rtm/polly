@@ -79,7 +79,7 @@ const _voterNames = (voters) => {
     return voters.map(voter => {
       const image = {
         type: 'plain_text',
-        text: voter.user
+        text: voter.displayName
       }
       return image
     })

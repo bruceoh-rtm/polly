@@ -107,6 +107,7 @@ class DatabaseAPI {
       id: 'INT AUTO_INCREMENT PRIMARY KEY',
       user: 'VARCHAR(255) NOT NULL',
       pic: 'VARCHAR(255) NOT NULL',
+      displayName: 'VARCHAR(255) NOT NULL',
       answer_id: 'INT NOT NULL'
     })
     this._createTable({
