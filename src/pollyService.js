@@ -80,6 +80,9 @@ const _fetchProfilePicture = async (userId, verification) => {
       const headers = {
         Authorization: `Bearer ${oauth[0].oauth}`,
       };
+
+      console.log(headers);
+      console.log(userId);
       const result = await fetch(
         `https://slack.com/api/users.profile.get?user=${userId}`,
         { method: "GET", headers: headers }
