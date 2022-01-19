@@ -75,7 +75,7 @@ const storeQuestion = async (question, answers) => {
 const _fetchProfilePicture = async (userId, verification) => {
   const oauth = await db.find("apps", { verification });
 
-  if (oauth.length === 1) {
+  if (oauth.length >= 1) {
     try {
       const headers = {
         Authorization: `Bearer ${oauth[0].oauth}`,
